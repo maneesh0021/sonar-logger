@@ -2,27 +2,28 @@ package com.example.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.ui.ExtendedModelMap;
+import org.mockito.Mockito;
+import org.springframework.ui.Model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class HomeControllerTest {
 
     private HomeController controller;
+    private Model mockModel;
 
     @BeforeEach
     void setUp() {
         controller = new HomeController();
+        mockModel = Mockito.mock(Model.class);
     }
 
     @Test
     void testHomeViewNameAndMessage() {
-        ExtendedModelMap model = new ExtendedModelMap();
-        String viewName = controller.home(model);
+        String viewName = controller.home(mockModel);
 
         assertEquals("home", viewName);
-        assertTrue(model.containsAttribute("message"));
-        assertEquals("Hello from Spring MVC Controller!", model.get("message"));
+        verify(mockModel).addAttribute("message", "Hello from Spring MVC Controller!");
     }
 }
